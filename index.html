@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Zeynebime Mektup</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap');
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to bottom, #ffe0e9, #fff);
+      font-family: 'Quicksand', sans-serif;
+      overflow: hidden;
+    }
+    .envelope {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 300px;
+      height: 200px;
+      background: #f0c0c0;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 10;
+      font-size: 2em;
+      animation: pulse 2s infinite;
+    }
+    .envelope::before {
+      content: "💌";
+      font-size: 3em;
+    }
+    .heart-popup {
+      display: none;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 5em;
+      z-index: 11;
+      animation: pulse 1.5s infinite;
+      background: url('https://cdn-icons-png.flaticon.com/512/833/833472.png') no-repeat center;
+      background-size: contain;
+      width: 120px;
+      height: 120px;
+    }
+    .letter {
+      display: none;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80%;
+      background: #fff0f5;
+      padding: 30px;
+      border-radius: 20px;
+      border: 3px dashed #ff69b4;
+      box-shadow: 0 0 20px rgba(255, 100, 150, 0.4);
+      font-size: 1.4em;
+      line-height: 1.8em;
+      z-index: 9;
+      text-align: center;
+      color: #d6336c;
+    }
+    .letter::after {
+      content: '❤️';
+      position: absolute;
+      bottom: 10px;
+      right: 20px;
+      font-size: 1.5em;
+      animation: pulse 1s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+    }
+    .hearts, .flowers {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 1;
+    }
+    .heart, .flower {
+      position: absolute;
+      animation: float 6s linear infinite;
+    }
+    .heart { color: red; font-size: 20px; }
+    .flower {
+      width: 30px;
+      height: 30px;
+      background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Rose_icon.svg/1200px-Rose_icon.svg.png') no-repeat center;
+      background-size: contain;
+    }
+    @keyframes float {
+      0% { transform: translateY(100vh) scale(1); opacity: 1; }
+      100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
+    }
+    .slideshow {
+      display: none;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80vw;
+      height: 80vh;
+      z-index: 8;
+      overflow: hidden;
+    }
+    .slideshow img {
+      width: auto;
+      height: 100%;
+      max-width: 100%;
+      max-height: 80vh;
+      object-fit: contain;
+      position: absolute;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+      border: 10px solid #ffb6c1;
+      border-radius: 20px;
+      box-shadow: 0 0 15px rgba(255, 105, 180, 0.5);
+    }
+    .message {
+      display: none;
+      position: absolute;
+      bottom: 10%;
+      width: 100%;
+      text-align: center;
+      font-size: 2.5em;
+      color: crimson;
+      z-index: 9;
+      animation: pulse 1.5s infinite;
+      font-family: 'Quicksand', sans-serif;
+    }
+  </style>
+</head>
+<body>
+  <audio id="song1" src="anil-m.mp3" autoplay></audio>
+  <audio id="song2" src="kisa-mesafe.mp3"></audio>
+
+  <div class="envelope" onclick="showHeart()"></div>
+  <div class="heart-popup" id="heartPopup"></div>
+  <div class="letter" id="letter">
+    Çok şey istemiyorum, tek yapmak istediğim elini tutmak, sana sarılabilmek. Gerçekten sevmek isteyen mesafelere rağmen sever bitanem. İyi ki hayatımdasın. Senin gibi birini bulduğum için çok şanslıyım balım. Seninle gelecek istiyorum. Çocuklarımız olsun istiyorum. Benim isteyip yapamadığım ya da içimde heves kalmış olan her şeyi çocuklarımıza yaşatacağım bitanem. Her şeyin en iyisini hak ediyorsun güzelim. Senin mutluluğun benim mutluluğum, senin üzüntün benim üzüntüm. Kimse yanında olmasa bile her zaman yanında olurum. Her zaman arkana baktığında beni bulacaksın. Seni asla bırakmam. Benim için çok değerlisin. Seni çok seviyorum. İyi ki hayatımdasın Zeynebim.
+  </div>
+  <div class="slideshow" id="slideshow">
+    <img src="1.jpg">
+<img src="2.jpg">
+<img src="3.jpg">
+<img src="4.jpg">
+<img src="5.jpg">
+<img src="6.jpg">
+<img src="7.jpg">
+
+  </div>
+  <div class="message" id="finalMsg">Seni çok seviyorum bitanem ❤️</div>
+  <div class="hearts" id="hearts"></div>
+  <div class="flowers" id="flowers"></div>
+  <script>
+    const showHeart = () => {
+      const heartPopup = document.getElementById('heartPopup');
+      heartPopup.style.display = 'block';
+      setTimeout(() => {
+        heartPopup.style.display = 'none';
+        openLetter();
+      }, 1500);
+    };
+
+    const openLetter = () => {
+      document.querySelector('.envelope').style.display = 'none';
+      document.getElementById('letter').style.display = 'block';
+      const song1 = document.getElementById('song1');
+      song1.currentTime = 68;
+      song1.play();
+
+      setTimeout(() => {
+        document.getElementById('letter').style.display = 'none';
+        document.getElementById('slideshow').style.display = 'block';
+
+        song1.pause();
+        const song2 = document.getElementById('song2');
+        song2.currentTime = 21;
+        song2.play();
+
+        showImages();
+
+        setTimeout(() => {
+          document.getElementById('finalMsg').style.display = 'block';
+        }, 33000);
+      }, 20000);
+    }
+
+    const showImages = () => {
+      const images = document.querySelectorAll('.slideshow img');
+      images.forEach((img, i) => {
+        setTimeout(() => {
+          img.style.opacity = 1;
+          setTimeout(() => { img.style.opacity = 0; }, 4700);
+        }, i * 4700);
+      });
+    }
+
+    const heartsContainer = document.getElementById('hearts');
+    const flowersContainer = document.getElementById('flowers');
+
+    setInterval(() => {
+      const heart = document.createElement('div');
+      heart.className = 'heart';
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.fontSize = Math.random() * 20 + 10 + 'px';
+      heart.textContent = '❤️';
+      heartsContainer.appendChild(heart);
+      setTimeout(() => heart.remove(), 6000);
+
+      const flower = document.createElement('div');
+      flower.className = 'flower';
+      flower.style.left = Math.random() * 100 + 'vw';
+      flowersContainer.appendChild(flower);
+      setTimeout(() => flower.remove(), 6000);
+    }, 300);
+  </script>
+</body>
+</html>
